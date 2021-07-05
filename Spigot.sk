@@ -1,0 +1,160 @@
+options:
+  prefix: &eHonigDev &8>>
+
+# Gamemode Commands #
+
+command /gmc:
+    permission: gmc.use
+    permission message: {@prefix} &cDu hast keine Berechtigungen.
+    trigger:
+        set player's gamemode to creative
+        send "{@prefix} &aDein Spielmodus wurde aktualisiert auf &bCreative"
+        stop
+
+command /gms:
+            permission: gms.use
+            permission message: {@prefix} &cDu hast keine Berechtigungen.
+            trigger:
+                set player's gamemode to survival
+                send "{@prefix} &aDein Spielmodus wurde aktualisiert auf &bSurvival"
+                stop
+
+command /gma:
+            permission: gma.use
+            permission message: {@prefix} &cDu hast keine Berechtigungen.
+            trigger:
+                set player's gamemode to adventure
+                send "{@prefix} &aDein Spielmodus wurde aktualisiert auf &bAdventure"
+                stop
+
+command /gmsp:
+            permission: gmsp.use
+            permission message: {@prefix} &cDu hast keine Berechtigungen.
+            trigger:
+                set player's gamemode to spectator
+                send "{@prefix} &aDein Spielmodus wurde aktualisiert auf &bSpectator"
+                stop
+
+# clearchat #
+
+command /clearchat:
+    permission: clearchat.use
+    permission message: {@prefix} &cDu hast keine Berechtigungen.
+    trigger:
+        loop 300 times:
+            broadcast ""
+        broadcast "{@prefix} &aChat wurde gelöscht von &b%player% &a❀"
+        stop
+
+# Time commands #
+
+command /day:
+	permission: day.use
+	permission message: {@prefix} &cDu hast keine Berechtigungen.
+	trigger:
+		set time to 7:00
+		broadcast "{@prefix} &aZeit wurde geändert zu &bTag"
+
+command /noon:
+    trigger:
+        set time to 14:00
+        broadcast "{@prefix} &aZeit wurde geändert zu &bMittag"
+
+command /night:
+	permission: night.use
+	permission message: {@prefix} &cDu hast keine Berechtigungen.
+	trigger:
+		set time to 22:00
+		broadcast "{@prefix} &aZeit wurde geändert zu &0Nacht"
+
+# Fly Command #
+
+Command /fly:
+    executable by: players
+    Permission: fly.use
+    trigger:
+        If player's flight mode is false:
+            send "{@systeme} &aFlugmodus wurde &bAktiviert"
+            set player's flight mode to true
+            Stop
+        else:
+            send "{@systeme} &aFlugmodus wurde &cDeaktiviert"
+            set player's flight mode to false
+            Stop
+
+# Join & Quit #
+
+on first join:
+    set join message to ""
+    broadcast "&8[ &a+ &8] &7%player%"
+    stop
+
+on join:
+    set join message to ""
+    broadcast "&8[ &a+ &8] &7%player%"
+    send ""
+    send "&8┃ &c• &8┃ &a&lHerzlich Willkommen auf dem &5&lReexyfy&8 &5&lNetzwerk &8┃ &c• &8┃"
+    send ""
+    send "&8┃ &c• &8┃ &6&lSPENDEN &8» /&6SPENDEN &8┃ &c• &8┃"
+    send "&8┃ &c• &8┃ &a&lDiscord &8» &a/DISCORD &8┃ &c• &8┃"
+    send ""
+    stop
+
+on quit:
+    set leave message to ""
+    broadcast "&8[ &c- &8] &7%player%"
+    stop
+
+# Addons #
+
+command /echest:
+    aliases: /ec, enderchest
+    permission: open.echest
+    permission message: "&4Du hast keine Berechtigungen!"
+    trigger:
+        open the player's ender chest to the player
+
+command /youtuber:
+    trigger:
+        send "&a-----------------" to player
+        send "&2Die Anforderungen sind:" to player
+        send "&6&l150 Abos" to player
+        send "&6&l200 Aufrufe" to player
+        send "&6&lVideos auf unserem Server" to player
+        send "&a-----------------" to player
+
+command /discord:
+        	aliases: /dc
+        	trigger:
+        		send "&5{@prefix} &7Trete <tooltip:&6Hier drücken um unserem &bDiscord &6Server beizutreten><link:https://discord.gg/SHBaCyEYKe>&ehier &7unserem &bDiscord &7Server bei" to player
+
+# playtime #
+
+every second:
+  loop all players:
+    if {playtime.seconds.%loop-player%} is not set:
+      set {playtime.seconds.%loop-player%} to 0
+    if {playtime.minutes.%loop-player%} is not set:
+      set {playtime.minutes.%loop-player%} to 0
+    if {playtime.hours.%loop-player%} is not set:
+      set {playtime.hours.%loop-player%} to 0
+    if {playtime.days.%loop-player%} is not set:
+      set {playtime.days.%loop-player%} to 0
+
+    add 1 to {playtime.seconds.%loop-player%}
+
+    if {playtime.seconds.%loop-player%} is 60:
+      set {playtime.seconds.%loop-player%} to 0
+      add 1 to {playtime.minutes.%loop-player%}
+
+    if {playtime.minutes.%loop-player%} is 60:
+      set {playtime.minutes.%loop-player%} to 0
+      add 1 to {playtime.hours.%loop-player%}
+
+    if {playtime.hours.%loop-player%} is 24:
+      set {playtime.hours.%loop-player%} to 0
+      add 1 to {playtime.days.%loop-player%}
+
+command /playtime:
+  trigger:
+    send "{@prefix} &f%{playtime.days.%player%}% &a&lTage, &f%{playtime.hours.%player%}% &a&lStunden, &f%{playtime.minutes.%player%}% &a&lMinuten, &f%{playtime.seconds.%player%}% &a&lSekunden." to player
